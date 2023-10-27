@@ -1,7 +1,8 @@
 import tkinter as tk
+from tkinter import ttk
 from bancoDeDados import BancoDeDados
 
-class Cadastro:
+class Gerenciar:
     def __init__(self, win):
         self.objBD = BancoDeDados()
 
@@ -19,9 +20,10 @@ class Cadastro:
         self.txtUsername = tk.Entry(win, width=40)
         self.txtSenha = tk.Entry(win, width=40)
 
-        #Chamada para os metodos do BD
-        self.btnCadastrar = tk.Button(win, text='Cadastrar', command=self.fCadastrar, width=15, bg='green', fg="white")
-        self.btnLimpar = tk.Button(win, text='Limpar', command=self.fLimparTela, width=15, bg='red', fg="white")
+        # Chamada para os metodos do BD
+        self.btnAtualizar = tk.Button(win, text='Atualizar', command=self.fAtualizar(), width=15, bg='green',
+                                      fg="white")
+        self.btnLimpar = tk.Button(win, text='Limpar', command=self.fLimparTela(), width=15, bg='red', fg="white")
 
         # Posicionamento dos componentes
         self.lblNome.place(x=30, y=270)
@@ -35,10 +37,10 @@ class Cadastro:
         self.lblSenha.place(x=30, y=390)
         self.txtSenha.place(x=100, y=390)
 
-        self.btnCadastrar.place(x=80, y=430)
+        self.btnAtualizar.place(x=80, y=430)
         self.btnLimpar.place(x=220, y=430)
 
-    def fCadastrar(self):
+    def fAtualizar(self):
         # Obtenha os dados dos campos de entrada
         nome = self.txtNome.get()
         email = self.txtEmail.get()
@@ -48,10 +50,10 @@ class Cadastro:
 
         try:
             self.objBD.inserirDados(nome, email, telefone, username, senha)
-            print('Dados inseridos com sucesso!') #lembrar de inserir a tela de sucesso!
+            print('Dados inseridos com sucesso!')  # lembrar de inserir a tela de sucesso!
             self.fLimparTela()
         except:
-            print('Ocorreu um erro, verifique os dados e tente novamente!')
+            print('Não foi possível fazer a atualização.')
             # lembrar de inserir a tela de erro!
 
     def fLimparTela(self):
@@ -68,11 +70,24 @@ class Cadastro:
 
 # Programa principal
 janela = tk.Tk()
-principal = Cadastro(janela)
-janela.title('Bem Vindo a Tela de Cadastro')
-imagem = tk.PhotoImage(file="./resources/cadastro_usuario.png")
+principal = Gerenciar(janela)
+janela.title('Gerenciamento de Usuários')
+
+#Imagem
+imagem = tk.PhotoImage(file="./resources/editar_usuario.png")
 imagem_label = tk.Label(janela, image=imagem)
 imagem_label.pack()
-janela.geometry("400x500")
+
+#Colunas da Tabela
+tree = ttk.Treeview(janela, columns=('coluna1', 'coluna2'), show='headings', selectmode='browse')
+
+tree.column('coluna1', width=100)
+tree.heading('#1', text='Nome')
+
+tree.column('coluna2', width=100)
+tree.heading('#2', text='Email')
+
+
+janela.geometry("400x600")
 janela.resizable(False, False)
 janela.mainloop()

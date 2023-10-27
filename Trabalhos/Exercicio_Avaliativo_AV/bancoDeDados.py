@@ -29,16 +29,10 @@ class BancoDeDados:
         finally:
             conn.close()
 
-    def inserirDados(self):
+    def inserirDados(self, nome, email,telefone, username, senha):
         conn = psycopg2.connect(database="Exercicio_Avaliativo_AV", user="postgres", password="123456", port="5432")
         comando = conn.cursor()
         try:
-            nome = 'Jeff'
-            email = '@'
-            telefone = '123'
-            username = 'jpedro'
-            senha = 'senha'
-
             comando_sql =   """ INSERT INTO teste.tb_users(nome, email, telefone, username, senha) 
                                 VALUES (%s, %s, %s, %s, %s); """
             valores = (nome,email,telefone,username,senha)

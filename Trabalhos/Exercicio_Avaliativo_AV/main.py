@@ -1,6 +1,6 @@
 from bancoDeDados import BancoDeDados
-from GUI_Cadastro import GUI
+from GUI_Cadastro import Cadastro
 
-gui = GUI()
+gui = Cadastro()
 
 
