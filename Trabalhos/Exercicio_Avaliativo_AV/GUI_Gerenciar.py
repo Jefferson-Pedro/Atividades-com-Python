@@ -5,6 +5,7 @@ import bancoDeDados
 from bancoDeDados import BancoDeDados
 
 class Gerenciar:
+    objBD = BancoDeDados()
     def __init__(self, win, frame1, frame2):
         self.objBD = BancoDeDados()
 
@@ -43,13 +44,14 @@ class Gerenciar:
         self.btnAtualizar.place(relx=0.5, rely=0.8, relwidth=0.1, relheight=0.15)
         self.btnLimpar.place(relx=0.3, rely=0.8, relwidth=0.1, relheight=0.15)
 
-
     def fListaUsuarios(self):
-        listaUsuários.delete(listaUsuários.get_children())
-        lista = bancoDeDados.lerDados()
-
+        children = listaUsuários.get_children()
+        if children:  # Verifica se há itens na árvore para evitar o erro "Cannot delete root item"
+            for child in children:
+                listaUsuários.delete(child)
+        lista = self.objBD.lerDados()
         for i in lista:
-          listaUsuários.insert("", END, values=i)
+            listaUsuários.insert("", END, values=i)
 
     def fAtualizar(self):
         # Obtenha os dados dos campos de entrada
@@ -60,7 +62,6 @@ class Gerenciar:
         senha = self.txtSenha.get()
 
         try:
-            self.objBD.inserirDados(nome, email, telefone, username, senha)
             print('Dados inseridos com sucesso!')  # lembrar de inserir a tela de sucesso!
             self.fLimparTela()
             self.fListaUsuarios()
@@ -104,8 +105,8 @@ frame2.place(relx=0.02, rely=0.5, relwidth=0.96, relheight=0.46)
 #imagem_label = tk.Label(janela, image=imagem)
 #imagem_label.pack()
 
-#Colunas da Tabela
-listaUsuários = ttk.Treeview(frame1, height= 3, columns=('col1', 'col2', 'col3', 'col4'))
+# Colunas da Tabela
+listaUsuários = ttk.Treeview(frame1, height=3, columns=('col1', 'col2', 'col3', 'col4'))
 listaUsuários.heading("#0", text="")
 listaUsuários.heading("#1", text="Id")
 listaUsuários.heading("#2", text="Nome")
@@ -118,11 +119,12 @@ listaUsuários.column("#2", width=200)
 listaUsuários.column("#3", width=200)
 listaUsuários.column("#4", width=150)
 
-listaUsuários.place(relx=0.02, rely=0.05, relwidth=0.95, relheight= 0.85)
+listaUsuários.place(relx=0.02, rely=0.05, relwidth=0.95, relheight=0.85)
 
 scroolLista = tk.Scrollbar(frame1, orient='vertical')
-listaUsuários.configure(scroolLista.set(0.1, 0.1))
+listaUsuários.configure(yscrollcommand=scroolLista.set)
 scroolLista.place(relx=0.97, rely=0.07, relwidth=0.03, relheight=0.8)
 
 principal = Gerenciar(janela, frame1, frame2)
+principal.fListaUsuarios()  # Chamando a função para preencher a tabela
 janela.mainloop()

@@ -1,6 +1,5 @@
 import psycopg2
 
-
 class BancoDeDados:
 
     def __init__(self):
@@ -47,14 +46,16 @@ class BancoDeDados:
         conn = psycopg2.connect(database="Exercicio_Avaliativo_AV", user="postgres", password="123456", port="5432")
         comando = conn.cursor()
         try:
-            comando.execute('SELECT "id ", nome, email, username FROM teste.tb_users')
+            comando.execute('SELECT "id", nome, email, username FROM teste.tb_users')
             read_db = comando.fetchall()
             conn.commit()
             for line in read_db:
                 print('Resultado:', line)
+            return read_db # Retorna os dados obtidos da consulta
 
         except Exception as e:
             print(f'Erro ao retornar com os dados: {str(e)}')
+            return []  # Retorna uma lista vazia em caso de erro
         finally:
             conn.close()
 
@@ -74,5 +75,5 @@ class BancoDeDados:
     def deletarDados(self):
         print('Deletando dados')
 
-#banco = BancoDeDados()
-#banco.lerDados()
+banco = BancoDeDados()
+banco.lerDados()
