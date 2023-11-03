@@ -47,7 +47,7 @@ class BancoDeDados:
         conn = psycopg2.connect(database="Exercicio_Avaliativo_AV", user="postgres", password="123456", port="5432")
         comando = conn.cursor()
         try:
-            comando.execute('SELECT * FROM teste.tb_users')
+            comando.execute('SELECT "id ", nome, email, username FROM teste.tb_users')
             read_db = comando.fetchall()
             conn.commit()
             for line in read_db:
@@ -58,7 +58,21 @@ class BancoDeDados:
         finally:
             conn.close()
 
-    def atualizarDados(self):
-        print('Atualizando dados')
+    def atualizarDados(self, nome, email,telefone, username):
+        conn = psycopg2.connect(database="Exercicio_Avaliativo_AV", user="postgres", password="123456", port="5432")
+        comando = conn.cursor()
+        try:
+            comando_sql = """ INSERT INTO teste.tb_users(nome, email, telefone, username, senha) 
+                                       VALUES (%s, %s, %s, %s, %s); """
+            valores = (nome, email, telefone, username)
+            comando.execute(comando_sql, valores)
+            conn.commit()
+        except  ConnectionError:
+            print('Erro ao inserir dados.')
+        finally:
+            conn.close()
     def deletarDados(self):
         print('Deletando dados')
+
+#banco = BancoDeDados()
+#banco.lerDados()
