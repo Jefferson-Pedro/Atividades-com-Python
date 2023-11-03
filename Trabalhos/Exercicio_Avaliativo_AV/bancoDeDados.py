@@ -46,7 +46,8 @@ class BancoDeDados:
         conn = psycopg2.connect(database="Exercicio_Avaliativo_AV", user="postgres", password="123456", port="5432")
         comando = conn.cursor()
         try:
-            comando.execute('SELECT "id", nome, email, username FROM teste.tb_users')
+            comando.execute('SELECT "id", nome, email, username, telefone FROM teste.tb_users')
+            #comando.execute('SELECT * FROM teste.tb_users')
             read_db = comando.fetchall()
             conn.commit()
             for line in read_db:
@@ -59,21 +60,36 @@ class BancoDeDados:
         finally:
             conn.close()
 
-    def atualizarDados(self, nome, email,telefone, username):
+    def atualizarDados(self, nome, email, telefone, username, senha, id):
         conn = psycopg2.connect(database="Exercicio_Avaliativo_AV", user="postgres", password="123456", port="5432")
         comando = conn.cursor()
         try:
-            comando_sql = """ INSERT INTO teste.tb_users(nome, email, telefone, username, senha) 
-                                       VALUES (%s, %s, %s, %s, %s); """
-            valores = (nome, email, telefone, username)
+            comando_sql = """UPDATE teste.tb_users SET nome= %s, email= %s, telefone= %s, username= %s, senha= %s
+                            WHERE "id" = %s """
+            valores = (nome, email, telefone, username, senha, id)
             comando.execute(comando_sql, valores)
             conn.commit()
         except  ConnectionError:
-            print('Erro ao inserir dados.')
+            print('Erro ao atualizar dados. Verifique os dados passados e tente novamente.')
         finally:
             conn.close()
-    def deletarDados(self):
-        print('Deletando dados')
+
+    def deletarDados(self, id):
+        if id:
+            conn = psycopg2.connect(database="Exercicio_Avaliativo_AV", user="postgres", password="123456", port="5432")
+            comando = conn.cursor()
+            try:
+                comando_sql = 'DELETE FROM teste.tb_users WHERE "id" = %s'
+                valores = (id,)
+                comando.execute(comando_sql, valores)
+                conn.commit()
+            except  ConnectionError:
+                print('Erro ao excluir dados. Verifique se o mesmo existe')
+            finally:
+                conn.close()
+        else:
+            print("ID inválido. Não foi possível excluir o registro.")
+
 
 banco = BancoDeDados()
 banco.lerDados()

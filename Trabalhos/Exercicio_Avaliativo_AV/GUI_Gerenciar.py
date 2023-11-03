@@ -5,8 +5,9 @@ import bancoDeDados
 from bancoDeDados import BancoDeDados
 
 class Gerenciar:
-    objBD = BancoDeDados()
+    #objBD = BancoDeDados()
     def __init__(self, win, frame1, frame2):
+        self.txtId = None
         self.objBD = BancoDeDados()
 
         # Componentes Labels
@@ -17,6 +18,7 @@ class Gerenciar:
         self.lblSenha = tk.Label(win, text='Senha:')
 
         # Componentes Inputs
+        self.txtId = tk.Entry(win)
         self.txtNome = tk.Entry(win, width=60)
         self.txtEmail = tk.Entry(win, width=60)
         self.txtTelefone = tk.Entry(win, width=60)
@@ -26,8 +28,10 @@ class Gerenciar:
         # Chamada para os métodos do BD
         self.btnAtualizar = tk.Button(frame2, text='Atualizar', command=self.fAtualizar, width=15, bg='green',
                                       fg="white", font= ('verdana', 8, 'bold'))
-        self.btnLimpar = tk.Button(frame2, text='Limpar', command=self.fLimparTela, width=15, bg='red',
+        self.btnLimpar = tk.Button(frame2, text='Limpar', command=self.fLimparTela, width=15, bg='blue',
                                    fg="white", font= ('verdana', 8, 'bold'))
+        self.btnExcluir = tk.Button(frame2, text='Excluir', command=self.fExcluiUsuario, width=15, bg='red',
+                                   fg="white", font=('verdana', 8, 'bold'))
 
         # Posicionamento dos componentes (relativo ao frame2)
         self.lblNome.place(x=30, y=270)
@@ -41,8 +45,10 @@ class Gerenciar:
         self.lblSenha.place(x=30, y=390)
         self.txtSenha.place(x=100, y=390)
 
-        self.btnAtualizar.place(relx=0.5, rely=0.8, relwidth=0.1, relheight=0.15)
-        self.btnLimpar.place(relx=0.3, rely=0.8, relwidth=0.1, relheight=0.15)
+        self.btnAtualizar.place(relx=0.6, rely=0.8, relwidth=0.1, relheight=0.15)
+        self.btnExcluir.place(relx=0.4, rely=0.8, relwidth=0.1, relheight=0.15)
+        self.btnLimpar.place(relx=0.2, rely=0.8, relwidth=0.1, relheight=0.15)
+
 
     def fListaUsuarios(self):
         children = listaUsuários.get_children()
@@ -53,6 +59,26 @@ class Gerenciar:
         for i in lista:
             listaUsuários.insert("", END, values=i)
 
+    def fExcluiUsuario(self):
+        # Obtem o ID do usuário do campo de entrada
+        id = self.txtId.get()
+
+        # Verifica se o ID não está vazio antes de excluir
+        if id:
+            nome = self.txtNome.get()
+            email = self.txtEmail.get()
+            telefone = self.txtTelefone.get()
+            username = self.txtUsername.get()
+            senha = self.txtSenha.get()
+
+            self.objBD.deletarDados(id)
+
+            self.fLimparTela()
+
+            self.fListaUsuarios()
+        else:
+            print("Nenhum usuário selecionado para exclusão.")
+
     def fAtualizar(self):
         # Obtenha os dados dos campos de entrada
         nome = self.txtNome.get()
@@ -62,7 +88,8 @@ class Gerenciar:
         senha = self.txtSenha.get()
 
         try:
-            print('Dados inseridos com sucesso!')  # lembrar de inserir a tela de sucesso!
+            self.objBD.atualizarDados(nome, email, telefone, username,senha)
+            print('Dados atualizados com sucesso!')  # lembrar de inserir a tela de sucesso!
             self.fLimparTela()
             self.fListaUsuarios()
         except:
@@ -80,8 +107,17 @@ class Gerenciar:
         except:
             print('Não foi possível limpar os campos.')
 
-
-
+    def fSelecionaUsuario(self, event=None):
+        listaUsuários.selection()
+        for n in listaUsuários.selection():
+            col1, col2,col3,col4, col5 = listaUsuários.item(n, 'values')
+            self.txtId.insert(END, col1)
+            self.txtNome.insert(END, col2)
+            self.txtEmail.insert(END, col3)
+            self.txtUsername.insert(END, col4)
+            self.txtTelefone.insert(END, col5)
+           # self.txtSenha.insert(END, col6)
+        print('Usuário selecionado: ',self.txtId, self.txtNome,  self.txtEmail, self.txtUsername, self.txtTelefone)
 
 # Programa principal
 janela = tk.Tk()
@@ -124,6 +160,8 @@ listaUsuários.place(relx=0.02, rely=0.05, relwidth=0.95, relheight=0.85)
 scroolLista = tk.Scrollbar(frame1, orient='vertical')
 listaUsuários.configure(yscrollcommand=scroolLista.set)
 scroolLista.place(relx=0.97, rely=0.07, relwidth=0.03, relheight=0.8)
+listaUsuários.bind("<Double-1>", lambda event: principal.fSelecionaUsuario(event))
+
 
 principal = Gerenciar(janela, frame1, frame2)
 principal.fListaUsuarios()  # Chamando a função para preencher a tabela
