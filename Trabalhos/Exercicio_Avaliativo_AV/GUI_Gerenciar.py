@@ -80,21 +80,26 @@ class Gerenciar:
             print("Nenhum usuário selecionado para exclusão.")
 
     def fAtualizar(self):
-        # Obtenha os dados dos campos de entrada
-        nome = self.txtNome.get()
-        email = self.txtEmail.get()
-        telefone = self.txtTelefone.get()
-        username = self.txtUsername.get()
-        senha = self.txtSenha.get()
+        # Obtem o ID do usuário do campo de entrada
+        id = self.txtId.get()
 
-        try:
-            self.objBD.atualizarDados(nome, email, telefone, username,senha)
-            print('Dados atualizados com sucesso!')  # lembrar de inserir a tela de sucesso!
-            self.fLimparTela()
-            self.fListaUsuarios()
-        except:
-            print('Não foi possível fazer a atualização.')
-            # lembrar de inserir a tela de erro!
+        if id:
+            # Obtenha os dados dos campos de entrada
+            nome = self.txtNome.get()
+            email = self.txtEmail.get()
+            telefone = self.txtTelefone.get()
+            username = self.txtUsername.get()
+            senha = self.txtSenha.get()
+
+            try:
+                self.objBD.atualizarDados(nome, email, telefone, username, senha, id)
+                print('Dados atualizados com sucesso!')
+                self.fLimparTela()
+                self.fListaUsuarios()
+            except Exception as e:
+                print(f'Erro ao atualizar dados: {e}')
+        else:
+            print("ID inválido. Certifique-se de que o ID seja um número inteiro.")
 
     def fLimparTela(self):
         try:
@@ -104,7 +109,7 @@ class Gerenciar:
             self.txtUsername.delete(0, tk.END)
             self.txtSenha.delete(0, tk.END)
             print('Campos Limpos!')
-        except:
+        except Exception as e:
             print('Não foi possível limpar os campos.')
 
     def fSelecionaUsuario(self, event=None):

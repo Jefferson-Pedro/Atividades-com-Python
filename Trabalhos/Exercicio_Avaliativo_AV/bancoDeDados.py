@@ -69,8 +69,8 @@ class BancoDeDados:
             valores = (nome, email, telefone, username, senha, id)
             comando.execute(comando_sql, valores)
             conn.commit()
-        except  ConnectionError:
-            print('Erro ao atualizar dados. Verifique os dados passados e tente novamente.')
+        except ConnectionError as e:
+            print(f'Erro ao atualizar dados. Verifique os dados passados e tente novamente. {e}')
         finally:
             conn.close()
 
