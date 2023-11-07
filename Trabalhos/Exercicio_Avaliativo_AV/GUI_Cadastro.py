@@ -1,7 +1,12 @@
 import tkinter as tk
+from tkinter import messagebox
+
 from bancoDeDados import BancoDeDados
 
 class Cadastro:
+
+    def __init__(self):
+        pass
     def __init__(self, win):
         self.objBD = BancoDeDados()
 
@@ -48,11 +53,12 @@ class Cadastro:
 
         try:
             self.objBD.inserirDados(nome, email, telefone, username, senha)
-            print('Dados inseridos com sucesso!') #lembrar de inserir a tela de sucesso!
+            print('Dados inseridos com sucesso!')
+            messagebox.showinfo("Sucesso","Cadastro realizado com sucesso!")
             self.fLimparTela()
         except:
             print('Ocorreu um erro, verifique os dados e tente novamente!')
-            # lembrar de inserir a tela de erro!
+            messagebox.showerror("Erro", "Ocorreu um erro ao salvar as informações.")
 
     def fLimparTela(self):
         try:

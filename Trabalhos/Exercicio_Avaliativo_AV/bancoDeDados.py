@@ -32,7 +32,7 @@ class BancoDeDados:
         conn = psycopg2.connect(database="Exercicio_Avaliativo_AV", user="postgres", password="123456", port="5432")
         comando = conn.cursor()
         try:
-            comando_sql =   """ INSERT INTO teste.tb_users(nome, email, telefone, username, senha) 
+            comando_sql = """ INSERT INTO teste.tb_users(nome, email, telefone, username, senha) 
                                 VALUES (%s, %s, %s, %s, %s); """
             valores = (nome,email,telefone,username,senha)
             comando.execute(comando_sql, valores)
@@ -89,6 +89,25 @@ class BancoDeDados:
                 conn.close()
         else:
             print("ID inválido. Não foi possível excluir o registro.")
+
+    def verificar_credenciais(self, username, senha):
+        conn = psycopg2.connect(database="Exercicio_Avaliativo_AV", user="postgres", password="123456", port="5432")
+        comando = conn.cursor()
+
+        try:
+            comando_sql = """SELECT * FROM teste.tb_users WHERE username = %s AND senha = %s """
+            valores = (username, senha)
+            comando.execute(comando_sql, valores)
+            conn.commit()
+            print("Usuário encontrado!")
+
+            # Verificar se o usuário existe no banco de dados
+            return comando.fetchone() is not None
+
+        except ConnectionError as e:
+            print(f'Erro ao verificar as credenciais: {e}')
+        finally:
+            conn.close()
 
 
 banco = BancoDeDados()

@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, END
+from tkinter import ttk, END, messagebox
 
 import bancoDeDados
 from bancoDeDados import BancoDeDados
@@ -49,7 +49,6 @@ class Gerenciar:
         self.btnExcluir.place(relx=0.4, rely=0.8, relwidth=0.1, relheight=0.15)
         self.btnLimpar.place(relx=0.2, rely=0.8, relwidth=0.1, relheight=0.15)
 
-
     def fListaUsuarios(self):
         children = listaUsuários.get_children()
         if children:  # Verifica se há itens na árvore para evitar o erro "Cannot delete root item"
@@ -76,8 +75,10 @@ class Gerenciar:
             self.fLimparTela()
 
             self.fListaUsuarios()
+            messagebox.showinfo("Sucesso", "Usuário excluido com sucesso!")
         else:
             print("Nenhum usuário selecionado para exclusão.")
+            messagebox.showerror("Erro", "Ocorreu um erro ao excluir o usuário.")
 
     def fAtualizar(self):
         # Obtem o ID do usuário do campo de entrada
@@ -94,10 +95,12 @@ class Gerenciar:
             try:
                 self.objBD.atualizarDados(nome, email, telefone, username, senha, id)
                 print('Dados atualizados com sucesso!')
+                messagebox.showinfo("Sucesso", "Dados atualizados com sucesso!")
                 self.fLimparTela()
                 self.fListaUsuarios()
             except Exception as e:
                 print(f'Erro ao atualizar dados: {e}')
+                messagebox.showerror("Erro", "Ocorreu um erro ao atualizar as informações do usuário.")
         else:
             print("ID inválido. Certifique-se de que o ID seja um número inteiro.")
 
@@ -115,13 +118,17 @@ class Gerenciar:
     def fSelecionaUsuario(self, event=None):
         listaUsuários.selection()
         for n in listaUsuários.selection():
-            col1, col2,col3,col4, col5 = listaUsuários.item(n, 'values')
+            col1, col2, col3, col4, col5 = listaUsuários.item(n, 'values')
+            self.txtId.delete(0, tk.END)  # Limpe o campo antes de inserir um novo valor
+            self.txtNome.delete(0, tk.END)
+            self.txtEmail.delete(0, tk.END)
+            self.txtUsername.delete(0, tk.END)
+            self.txtTelefone.delete(0, tk.END)
             self.txtId.insert(END, col1)
             self.txtNome.insert(END, col2)
             self.txtEmail.insert(END, col3)
             self.txtUsername.insert(END, col4)
             self.txtTelefone.insert(END, col5)
-           # self.txtSenha.insert(END, col6)
         print('Usuário selecionado: ',self.txtId, self.txtNome,  self.txtEmail, self.txtUsername, self.txtTelefone)
 
 # Programa principal
