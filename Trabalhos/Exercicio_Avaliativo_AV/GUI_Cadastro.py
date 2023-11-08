@@ -1,10 +1,8 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import PhotoImage, Label, messagebox
 from bancoDeDados import BancoDeDados
-from PIL import Image, ImageTk
 
 class Cadastro:
-
     def __init__(self, win):
         self.objBD = BancoDeDados()
 
@@ -22,7 +20,7 @@ class Cadastro:
         self.txtUsername = tk.Entry(win, width=40)
         self.txtSenha = tk.Entry(win, width=40)
 
-        #Chamada para os métodos do BD
+        # Chamada para os métodos do BD
         self.btnCadastrar = tk.Button(win, text='Cadastrar', command=self.fCadastrar, width=15, bg='green', fg="white")
         self.btnLimpar = tk.Button(win, text='Limpar', command=self.fLimparTela, width=15, bg='red', fg="white")
 
@@ -73,15 +71,13 @@ class Cadastro:
 janela = tk.Tk()
 janela.title('Bem Vindo a Tela de Cadastro')
 
-# Carregamento da imagem de fundo com Pillow
-background_image = Image.open("./resources/cadastro_usuario.png")
-photo = ImageTk.PhotoImage(background_image)
-
-# Exibição da imagem em um Label
-background_label = tk.Label(janela, image=photo)
-background_label.place(x=0, y=-140, relwidth=1, relheight=1)
+# Carrega imagem e converter para formato Tkinter
+imagem = PhotoImage(file="./resources/cadastro_usuario.png")
+imagem_label = Label(janela, image=imagem)
+imagem_label.pack()
 
 cadastro = Cadastro(janela)  # Crie a instância de Cadastro
+
 janela.geometry("400x500")
 janela.resizable(False, False)
 janela.mainloop()

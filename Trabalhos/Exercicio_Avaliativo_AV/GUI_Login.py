@@ -39,6 +39,7 @@ class Login:
             messagebox.showerror("Login", "Usuário ou senha incorretos")
 
     def abrir_cadastro(self):
+        self.root.destroy()
         from GUI_Cadastro import Cadastro
         cadastro = Cadastro()
         janela = tk.Toplevel(cadastro)
@@ -46,8 +47,11 @@ class Login:
 
 
     def abrir_calculo_imc(self):
-        # Coloque o código para abrir a tela de cálculo de IMC aqui
-        pass
+        self.root.destroy()
+        from GUI_CalculoIMC import IMC
+        imc = IMC()
+        janela = tk.Toplevel(imc)
+        janela.grad_set()
 
 # Janela Principal
 root = tk.Tk()

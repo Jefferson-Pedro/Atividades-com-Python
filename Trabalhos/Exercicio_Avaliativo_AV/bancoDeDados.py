@@ -12,7 +12,7 @@ class BancoDeDados:
 
         try:
             comando.execute(
-                """ CREATE TABLE IF NOT EXISTS teste.tb_users(
+                """ CREATE TABLE IF NOT EXISTS exercicio_av.tb_users(
                     id integer NOT NULL,
                     nome character varying(50) COLLATE pg_catalog."default" NOT NULL,
                     email character varying(50) COLLATE pg_catalog."default" NOT NULL,
@@ -32,13 +32,13 @@ class BancoDeDados:
         conn = psycopg2.connect(database="Exercicio_Avaliativo_AV", user="postgres", password="123456", port="5432")
         comando = conn.cursor()
         try:
-            comando_sql = """ INSERT INTO teste.tb_users(nome, email, telefone, username, senha) 
+            comando_sql = """ INSERT INTO exercicio_av.tb_users(nome, email, telefone, username, senha) 
                                 VALUES (%s, %s, %s, %s, %s); """
             valores = (nome,email,telefone,username,senha)
             comando.execute(comando_sql, valores)
             conn.commit()
-        except  ConnectionError:
-            print('Erro ao inserir dados.')
+        except Exception as e:
+            print(f'Erro ao inserir dados. {e}')
         finally:
             conn.close()
 
@@ -46,7 +46,7 @@ class BancoDeDados:
         conn = psycopg2.connect(database="Exercicio_Avaliativo_AV", user="postgres", password="123456", port="5432")
         comando = conn.cursor()
         try:
-            comando.execute('SELECT "id", nome, email, username, telefone FROM teste.tb_users')
+            comando.execute('SELECT "id", nome, email, username, telefone FROM exercicio_av.tb_users')
             #comando.execute('SELECT * FROM teste.tb_users')
             read_db = comando.fetchall()
             conn.commit()
@@ -64,7 +64,7 @@ class BancoDeDados:
         conn = psycopg2.connect(database="Exercicio_Avaliativo_AV", user="postgres", password="123456", port="5432")
         comando = conn.cursor()
         try:
-            comando_sql = """UPDATE teste.tb_users SET nome= %s, email= %s, telefone= %s, username= %s, senha= %s
+            comando_sql = """UPDATE exercicio_av.tb_users SET nome= %s, email= %s, telefone= %s, username= %s, senha= %s
                             WHERE "id" = %s """
             valores = (nome, email, telefone, username, senha, id)
             comando.execute(comando_sql, valores)
@@ -79,7 +79,7 @@ class BancoDeDados:
             conn = psycopg2.connect(database="Exercicio_Avaliativo_AV", user="postgres", password="123456", port="5432")
             comando = conn.cursor()
             try:
-                comando_sql = 'DELETE FROM teste.tb_users WHERE "id" = %s'
+                comando_sql = 'DELETE FROM exercicio_av.tb_users WHERE "id" = %s'
                 valores = (id,)
                 comando.execute(comando_sql, valores)
                 conn.commit()
@@ -95,7 +95,7 @@ class BancoDeDados:
         comando = conn.cursor()
 
         try:
-            comando_sql = """SELECT * FROM teste.tb_users WHERE username = %s AND senha = %s """
+            comando_sql = """SELECT * FROM exercicio_av.tb_users WHERE username = %s AND senha = %s """
             valores = (username, senha)
             comando.execute(comando_sql, valores)
             conn.commit()

@@ -1,0 +1,23 @@
+INSERT INTO tb_users (id, nome, email, telefone, username, senha)
+VALUES
+    (1, 'Usuário 1', 'usuario1@email.com', '1234567891', 'user1', 'senha1'),
+    (2, 'Usuário 2', 'usuario2@email.com', '1234567892', 'user2', 'senha2'),
+    (3, 'Usuário 3', 'usuario3@email.com', '1234567893', 'user3', 'senha3'),
+    (4, 'Usuário 4', 'usuario4@email.com', '1234567894', 'user4', 'senha4'),
+    (5, 'Usuário 5', 'usuario5@email.com', '1234567895', 'user5', 'senha5'),
+    (6, 'Usuário 6', 'usuario6@email.com', '1234567896', 'user6', 'senha6'),
+    (7, 'Usuário 7', 'usuario7@email.com', '1234567897', 'user7', 'senha7'),
+    (8, 'Usuário 8', 'usuario8@email.com', '1234567898', 'user8', 'senha8'),
+    (9, 'Usuário 9', 'usuario9@email.com', '1234567899', 'user9', 'senha9'),
+    (10, 'Usuário 10', 'usuario10@email.com', '1234567810', 'user10', 'senha10'),
+    (11, 'Usuário 11', 'usuario11@email.com', '1234567811', 'user11', 'senha11'),
+    (12, 'Usuário 12', 'usuario12@email.com', '1234567812', 'user12', 'senha12'),
+    (13, 'Usuário 13', 'usuario13@email.com', '1234567813', 'user13', 'senha13'),
+    (14, 'Usuário 14', 'usuario14@email.com', '1234567814', 'user14', 'senha14'),
+    (15, 'Usuário 15', 'usuario15@email.com', '1234567815', 'user15', 'senha15'),
+    (16, 'Usuário 16', 'usuario16@email.com', '1234567816', 'user16', 'senha16'),
+    (17, 'Usuário 17', 'usuario17@email.com', '1234567817', 'user17', 'senha17'),
+    (18, 'Usuário 18', 'usuario18@email.com', '1234567818', 'user18', 'senha18'),
+    (19, 'Usuário 19', 'usuario19@email.com', '1234567819', 'user19', 'senha19'),
+    (20, 'Usuário 20', 'usuario20@email.com', '1234567820', 'user20', 'senha20'),
+    (21, 'Admin', 'useradmin@email.com', '1234567820', 'useradm', 'password');

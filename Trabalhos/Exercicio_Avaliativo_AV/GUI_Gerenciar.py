@@ -131,6 +131,21 @@ class Gerenciar:
             self.txtTelefone.insert(END, col5)
         print('Usuário selecionado: ',self.txtId, self.txtNome,  self.txtEmail, self.txtUsername, self.txtTelefone)
 
+    def abrir_cadastro(self):
+        self.janela.destroy()
+        from GUI_Cadastro import Cadastro
+        cadastro = Cadastro()
+        janela = tk.Toplevel(cadastro)
+        janela.grab_set()
+
+    def abrir_calculo_imc(self):
+        self.root.destroy()
+        from GUI_CalculoIMC import IMC
+        imc = IMC()
+        janela = tk.Toplevel(imc)
+        janela.grad_set()
+
+
 # Programa principal
 janela = tk.Tk()
 janela.title('Gerenciamento de Usuários')
@@ -144,14 +159,9 @@ janela.resizable(False, False)
 frame1 = tk.Frame(janela, bd=4)
 frame1.place(relx=0.02, rely=0.02, relwidth=0.96, relheight=0.46)
 
-#Frame
+#Frame2
 frame2 = tk.Frame(janela, bd=4)
 frame2.place(relx=0.02, rely=0.5, relwidth=0.96, relheight=0.46)
-
-#Imagem
-#imagem = tk.PhotoImage(file="./resources/editar_usuario.png")
-#imagem_label = tk.Label(janela, image=imagem)
-#imagem_label.pack()
 
 # Colunas da Tabela
 listaUsuários = ttk.Treeview(frame1, height=3, columns=('col1', 'col2', 'col3', 'col4'))
@@ -174,7 +184,22 @@ listaUsuários.configure(yscrollcommand=scroolLista.set)
 scroolLista.place(relx=0.97, rely=0.07, relwidth=0.03, relheight=0.8)
 listaUsuários.bind("<Double-1>", lambda event: principal.fSelecionaUsuario(event))
 
-
 principal = Gerenciar(janela, frame1, frame2)
+
+#Menubar
+menubar = tk.Menu(janela)
+janela.config(menu=menubar)
+
+# Criando um menu chamado "Ações"
+acoes_menu = tk.Menu(menubar, tearoff=0)
+menubar.add_cascade(label="Ações", menu=acoes_menu)
+
+acoes_menu.add_command(label="Calcular IMC", command=Gerenciar.abrir_calculo_imc)
+acoes_menu.add_command(label="Cadastrar Novo Usuário", command=Gerenciar.abrir_cadastro)
+acoes_menu.add_separator()  # Separação visual
+acoes_menu.add_command(label="Sair", command=janela.destroy)
+
+#Instanciação
+
 principal.fListaUsuarios()  # Chamando a função para preencher a tabela
 janela.mainloop()
