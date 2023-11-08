@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from bancoDeDados import BancoDeDados
-from GUI_Cadastro import Cadastro
+
 
 class Login:
     def __init__(self, root):
@@ -39,10 +39,11 @@ class Login:
             messagebox.showerror("Login", "Usuário ou senha incorretos")
 
     def abrir_cadastro(self):
-        # Crie uma instância da classe Cadastro
+        from GUI_Cadastro import Cadastro
         cadastro = Cadastro()
-        # Exiba a janela de cadastro
-        cadastro.janela.mainloop()
+        janela = tk.Toplevel(cadastro)
+        janela.grab_set()
+
 
     def abrir_calculo_imc(self):
         # Coloque o código para abrir a tela de cálculo de IMC aqui
@@ -57,8 +58,8 @@ imagem_label.pack()
 root.geometry("330x330")
 root.resizable(False, False)
 
-# Inicialize a classe de login dentro da janela principal
+# Inicializa a classe de login dentro da janela principal
 login = Login(root)
 
-# Inicie a aplicação
+# Inicia a aplicação
 root.mainloop()

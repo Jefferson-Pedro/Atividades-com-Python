@@ -1,12 +1,10 @@
 import tkinter as tk
 from tkinter import messagebox
-
 from bancoDeDados import BancoDeDados
+from PIL import Image, ImageTk
 
 class Cadastro:
 
-    def __init__(self):
-        pass
     def __init__(self, win):
         self.objBD = BancoDeDados()
 
@@ -24,7 +22,7 @@ class Cadastro:
         self.txtUsername = tk.Entry(win, width=40)
         self.txtSenha = tk.Entry(win, width=40)
 
-        #Chamada para os metodos do BD
+        #Chamada para os métodos do BD
         self.btnCadastrar = tk.Button(win, text='Cadastrar', command=self.fCadastrar, width=15, bg='green', fg="white")
         self.btnLimpar = tk.Button(win, text='Limpar', command=self.fLimparTela, width=15, bg='red', fg="white")
 
@@ -54,7 +52,7 @@ class Cadastro:
         try:
             self.objBD.inserirDados(nome, email, telefone, username, senha)
             print('Dados inseridos com sucesso!')
-            messagebox.showinfo("Sucesso","Cadastro realizado com sucesso!")
+            messagebox.showinfo("Sucesso", "Cadastro realizado com sucesso!")
             self.fLimparTela()
         except:
             print('Ocorreu um erro, verifique os dados e tente novamente!')
@@ -71,14 +69,19 @@ class Cadastro:
         except:
             print('Não foi possível limpar os campos.')
 
-
 # Programa principal
 janela = tk.Tk()
-principal = Cadastro(janela)
 janela.title('Bem Vindo a Tela de Cadastro')
-imagem = tk.PhotoImage(file="./resources/cadastro_usuario.png")
-imagem_label = tk.Label(janela, image=imagem)
-imagem_label.pack()
+
+# Carregamento da imagem de fundo com Pillow
+background_image = Image.open("./resources/cadastro_usuario.png")
+photo = ImageTk.PhotoImage(background_image)
+
+# Exibição da imagem em um Label
+background_label = tk.Label(janela, image=photo)
+background_label.place(x=0, y=-140, relwidth=1, relheight=1)
+
+cadastro = Cadastro(janela)  # Crie a instância de Cadastro
 janela.geometry("400x500")
 janela.resizable(False, False)
 janela.mainloop()

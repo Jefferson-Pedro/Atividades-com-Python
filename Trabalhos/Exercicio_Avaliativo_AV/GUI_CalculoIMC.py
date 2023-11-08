@@ -37,15 +37,15 @@ class IMC:
         except ValueError:
             messagebox.showerror("Erro", "Por favor, insira valores numéricos válidos para peso e altura.")
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    root.title("Cálculo de IMC")
-    imagem = tk.PhotoImage(file="./resources/imc.png")
-    imagem_label = tk.Label(root, image=imagem)
-    imagem_label.pack()
-    root.geometry("330x330")
-    root.resizable(False, False)
 
-    imc_calculator = IMC(root)
+root = tk.Tk()
+root.title("Cálculo de IMC")
+imagem = tk.PhotoImage(file="./resources/imc.png")
+imagem_label = tk.Label(root, image=imagem)
+imagem_label.pack()
+root.geometry("330x330")
+root.resizable(False, False)
 
-    root.mainloop()
+imc_calculator = IMC(root)
+
+root.mainloop()
