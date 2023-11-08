@@ -13,7 +13,7 @@ class BancoDeDados:
         try:
             comando.execute(
                 """ CREATE TABLE IF NOT EXISTS exercicio_av.tb_users(
-                    id integer NOT NULL,
+                    id serial NOT NULL,
                     nome character varying(50) COLLATE pg_catalog."default" NOT NULL,
                     email character varying(50) COLLATE pg_catalog."default" NOT NULL,
                     telefone character varying(12) COLLATE pg_catalog."default" NOT NULL,
@@ -102,7 +102,11 @@ class BancoDeDados:
             print("Usuário encontrado!")
 
             # Verificar se o usuário existe no banco de dados
-            return comando.fetchone() is not None
+            usuario = comando.fetchone()
+            if usuario is not None:
+                return usuario
+            else:
+                return None
 
         except ConnectionError as e:
             print(f'Erro ao verificar as credenciais: {e}')

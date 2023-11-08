@@ -8,7 +8,9 @@ class Gerenciar:
     #objBD = BancoDeDados()
     def __init__(self, win, frame1, frame2):
         self.txtId = None
+        self.janela = win
         self.objBD = BancoDeDados()
+        self.configurar_menu()
 
         # Componentes Labels
         self.lblNome = tk.Label(win, text='Nome:')
@@ -131,6 +133,17 @@ class Gerenciar:
             self.txtTelefone.insert(END, col5)
         print('Usuário selecionado: ',self.txtId, self.txtNome,  self.txtEmail, self.txtUsername, self.txtTelefone)
 
+    def configurar_menu(self):
+        menubar = tk.Menu(self.janela)
+        self.janela.config(menu=menubar)
+
+        acoes_menu = tk.Menu(menubar, tearoff=0)
+        menubar.add_cascade(label="Ações", menu=acoes_menu)
+
+        acoes_menu.add_command(label="Calcular IMC", command=self.abrir_calculo_imc)
+        acoes_menu.add_command(label="Cadastrar Novo Usuário", command=self.abrir_cadastro)
+        acoes_menu.add_separator()  # Separação visual
+        acoes_menu.add_command(label="Sair", command=self.janela.destroy)
     def abrir_cadastro(self):
         self.janela.destroy()
         from GUI_Cadastro import Cadastro
@@ -139,12 +152,11 @@ class Gerenciar:
         janela.grab_set()
 
     def abrir_calculo_imc(self):
-        self.root.destroy()
+        self.janela.destroy()
         from GUI_CalculoIMC import IMC
         imc = IMC()
         janela = tk.Toplevel(imc)
         janela.grad_set()
-
 
 # Programa principal
 janela = tk.Tk()
@@ -184,22 +196,7 @@ listaUsuários.configure(yscrollcommand=scroolLista.set)
 scroolLista.place(relx=0.97, rely=0.07, relwidth=0.03, relheight=0.8)
 listaUsuários.bind("<Double-1>", lambda event: principal.fSelecionaUsuario(event))
 
-principal = Gerenciar(janela, frame1, frame2)
-
-#Menubar
-menubar = tk.Menu(janela)
-janela.config(menu=menubar)
-
-# Criando um menu chamado "Ações"
-acoes_menu = tk.Menu(menubar, tearoff=0)
-menubar.add_cascade(label="Ações", menu=acoes_menu)
-
-acoes_menu.add_command(label="Calcular IMC", command=Gerenciar.abrir_calculo_imc)
-acoes_menu.add_command(label="Cadastrar Novo Usuário", command=Gerenciar.abrir_cadastro)
-acoes_menu.add_separator()  # Separação visual
-acoes_menu.add_command(label="Sair", command=janela.destroy)
-
 #Instanciação
-
+principal = Gerenciar(janela, frame1, frame2)
 principal.fListaUsuarios()  # Chamando a função para preencher a tabela
 janela.mainloop()

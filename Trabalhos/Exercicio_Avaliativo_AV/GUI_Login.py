@@ -32,9 +32,17 @@ class Login:
         usuario = self.entry_usuario.get()
         senha = self.entry_senha.get()
 
-        if self.objBD.verificar_credenciais(usuario, senha):
-            messagebox.showinfo("Login", "Login bem-sucedido")
-            self.abrir_calculo_imc()
+        tipo_usuario = self.objBD.verificar_credenciais(usuario, senha)
+        print('Resultado:', tipo_usuario)
+
+        if tipo_usuario is not None:
+            nome = tipo_usuario[4]
+            if nome == 'admin':
+                messagebox.showinfo("Login", "Login bem-sucedido como administrador")
+                self.abrir_interface_admin()
+            else:
+                messagebox.showinfo("Login", "Login bem-sucedido como usuário comum")
+                self.abrir_calculo_imc()
         else:
             messagebox.showerror("Login", "Usuário ou senha incorretos")
 
@@ -51,6 +59,13 @@ class Login:
         from GUI_CalculoIMC import IMC
         imc = IMC()
         janela = tk.Toplevel(imc)
+        janela.grad_set()
+
+    def abrir_interface_admin(self):
+        self.root.destroy()
+        from GUI_Gerenciar import Gerenciar
+        gerenciar = Gerenciar()
+        janela = tk.Toplevel(gerenciar)
         janela.grad_set()
 
 # Janela Principal
