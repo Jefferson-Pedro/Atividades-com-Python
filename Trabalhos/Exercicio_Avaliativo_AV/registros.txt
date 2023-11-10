@@ -20,4 +20,4 @@ VALUES
     (18, 'Usuário 18', 'usuario18@email.com', '1234567818', 'user18', 'senha18'),
     (19, 'Usuário 19', 'usuario19@email.com', '1234567819', 'user19', 'senha19'),
     (20, 'Usuário 20', 'usuario20@email.com', '1234567820', 'user20', 'senha20'),
-    (21, 'Admin', 'useradmin@email.com', '1234567820', 'useradm', 'password');
+    (21, 'Admin', 'useradmin@email.com', '1234567820', 'admin', '123');
